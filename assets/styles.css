@@ -38,6 +38,12 @@ body.correct {
     box-shadow: 0px 0px 10px 2px;
 }
 
+.status {
+    display: flex;
+    justify-content: end;
+    padding: 0 10px 10px 10px;
+}
+
 .btn-grid {
     display: grid;
     grid-template-columns: repeat(2, auto);

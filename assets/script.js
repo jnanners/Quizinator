@@ -6,15 +6,22 @@ const nextButtonEl = document.querySelector("#next-btn");
 const questionEl = document.querySelector("#question");
 const answersEl = document.querySelector("#answer-button");
 
+const containerEl = document.querySelector(".container");
+
 let shuffledQuestions, currentQuestionIndex;
 
+let clockRunner;
+
+timerStart = 10
+
+const timerEl = document.querySelector("#timer");
+
 startButtonEl.addEventListener("click", startGame);
-nextButtonEl.addEventListener("click", function(){
-    currentQuestionIndex++;
-    setNextQuestion();
-})
+
+
 
 function startGame() {
+    clockRunner = setInterval(decriment, 1000);
     startButtonEl.classList.add("hide");
     shuffledQuestions = questionArr.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
@@ -43,7 +50,7 @@ function showQuestion(question) {
 
 function resetState() {
     clearStatusClass(document.body);
-    nextButtonEl.classList.add("hide");
+    
     while(answersEl.firstChild) {
         answersEl.removeChild(answersEl.firstChild);
     }
@@ -52,16 +59,22 @@ function resetState() {
 function selectAnswer(event) {
     const selectedButton = event.target;
     const correct = selectedButton.dataset.correct;
-    setStatusClass(document.body, correct);
+    
     Array.from(answersEl.children).forEach(button => {
         setStatusClass(button, button.dataset.correct);
     })
     if(shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextButtonEl.classList.remove("hide");
+        setTimeout(() => {
+            currentQuestionIndex++;
+            setNextQuestion(); 
+        }, 500)
+        
     }
     else{
-        startButtonEl.innerText = "Restart";
-        startButtonEl.classList.remove("hide");
+        clearInterval(clockRunner);
+        // startButtonEl.innerText = "Restart";
+        // startButtonEl.classList.remove("hide");
+        endGame();
     }
 };
 
@@ -79,6 +92,27 @@ function clearStatusClass(element) {
     element.classList.remove("correct");
     element.classList.remove("wrong");
 };
+
+function decriment(){
+    timerStart--;
+    timerEl.textContent = "Timer: " + timerStart;
+    if(timerStart < 0){
+        timerStart = 0;
+        timerEl.textContent = "Timer: " + timerStart;
+    }
+}
+
+function endGame(){
+    //clear out questions/buttons
+    questionContainerEl.classList.add("hide");
+    //capture time remaining
+    //collect number correct
+    //get highscore
+    //save highscore to local storage
+    var highScoreContainer = document.querySelector(".highScoreContainer");
+    highScoreContainer.classList.remove("hide");
+    //show list of highscores
+}
 
 const questionArr = [
     {
