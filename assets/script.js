@@ -11,6 +11,11 @@ const answer4ButtonEl = document.querySelector("#answer4");
 
 startButtonEl.addEventListener("click", startGame);
 
+answer1ButtonEl.addEventListener("click", selectAnswer);
+answer2ButtonEl.addEventListener("click", selectAnswer);
+answer3ButtonEl.addEventListener("click", selectAnswer);
+answer4ButtonEl.addEventListener("click", selectAnswer);
+
 function startGame() {
     startButtonEl.classList.add("hide");
     questionContainerEl.classList.remove("hide");
@@ -28,8 +33,9 @@ function setNextQuestion() {
     }
 };
 
-function selectAnswer() {
-    
+function selectAnswer(event) {
+    const targetEl = event.target;
+    console.log(targetEl);
 };
 
 const questionArr = [
