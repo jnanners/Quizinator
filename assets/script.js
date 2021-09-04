@@ -1,41 +1,83 @@
 const questionContainerEl = document.querySelector("#question-container");
 
 const startButtonEl = document.querySelector("#start-btn");
+const nextButtonEl = document.querySelector("#next-btn");
 
 const questionEl = document.querySelector("#question");
+const answersEl = document.querySelector("#answer-button");
 
-const answer1ButtonEl = document.querySelector("#answer1");
-const answer2ButtonEl = document.querySelector("#answer2");
-const answer3ButtonEl = document.querySelector("#answer3");
-const answer4ButtonEl = document.querySelector("#answer4");
+let shuffledQuestions, currentQuestionIndex;
 
 startButtonEl.addEventListener("click", startGame);
-
-answer1ButtonEl.addEventListener("click", selectAnswer);
-answer2ButtonEl.addEventListener("click", selectAnswer);
-answer3ButtonEl.addEventListener("click", selectAnswer);
-answer4ButtonEl.addEventListener("click", selectAnswer);
+nextButtonEl.addEventListener("click", function(){
+    currentQuestionIndex++;
+    setNextQuestion();
+})
 
 function startGame() {
     startButtonEl.classList.add("hide");
+    shuffledQuestions = questionArr.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
     questionContainerEl.classList.remove("hide");
     setNextQuestion();
 };
 
 function setNextQuestion() {
-    for(var i = 0; i < questionArr.length; i++){
-        questionEl.innerText = questionArr[i].question;
+    resetState();
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+};
 
-        answer1ButtonEl.innerText = questionArr[i].answers[0].text;
-        answer2ButtonEl.innerText = questionArr[i].answers[1].text;
-        answer3ButtonEl.innerText = questionArr[i].answers[2].text;
-        answer4ButtonEl.innerText = questionArr[i].answers[3].text;
+function showQuestion(question) {
+    questionEl.innerText = question.question;
+    question.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerText = answer.text;
+        button.classList.add("btn");
+        if(answer.correct){
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener("click", selectAnswer);
+        answersEl.appendChild(button);
+    })
+};
+
+function resetState() {
+    clearStatusClass(document.body);
+    nextButtonEl.classList.add("hide");
+    while(answersEl.firstChild) {
+        answersEl.removeChild(answersEl.firstChild);
     }
 };
 
 function selectAnswer(event) {
-    const targetEl = event.target;
-    console.log(targetEl);
+    const selectedButton = event.target;
+    const correct = selectedButton.dataset.correct;
+    setStatusClass(document.body, correct);
+    Array.from(answersEl.children).forEach(button => {
+        setStatusClass(button, button.dataset.correct);
+    })
+    if(shuffledQuestions.length > currentQuestionIndex + 1) {
+        nextButtonEl.classList.remove("hide");
+    }
+    else{
+        startButtonEl.innerText = "Restart";
+        startButtonEl.classList.remove("hide");
+    }
+};
+
+function setStatusClass(element, correct) {
+    clearStatusClass(element);
+    if(correct) {
+        element.classList.add("correct");
+    }
+    else{
+        element.classList.add("wrong");
+    }
+};
+
+function clearStatusClass(element) {
+    element.classList.remove("correct");
+    element.classList.remove("wrong");
 };
 
 const questionArr = [
