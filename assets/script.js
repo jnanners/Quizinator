@@ -103,7 +103,6 @@ function decriment(){
 }
 
 function endGame(){
-    //clear out questions/buttons
     questionContainerEl.classList.add("hide");
     //capture time remaining
     //collect number correct
