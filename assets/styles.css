@@ -21,14 +21,6 @@ body {
     background-color: var(--nuetral);
 }
 
-body.wrong {
-    background-color: var(--wrong);
-}
-
-body.correct {
-    background-color: var(--correct);
-}
-
 .container {
     width: 800px;
     max-width: 80%;
@@ -84,6 +76,11 @@ body.correct {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+input {
+    padding: 3px;
+    margin: 7px;
 }
 
 .hide {

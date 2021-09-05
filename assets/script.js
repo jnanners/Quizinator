@@ -8,11 +8,15 @@ const answersEl = document.querySelector("#answer-button");
 
 const containerEl = document.querySelector(".container");
 
-let shuffledQuestions, currentQuestionIndex;
+const highScoreContainer = document.querySelector(".highScoreContainer");
 
-let clockRunner;
+const submitButtonEl = document.querySelector("#submit-initials");
 
-timerStart = 10
+let shuffledQuestions, currentQuestionIndex, clockRunner;
+
+let timerStart = 60;
+
+let score = 0;
 
 const timerEl = document.querySelector("#timer");
 
@@ -59,7 +63,13 @@ function resetState() {
 function selectAnswer(event) {
     const selectedButton = event.target;
     const correct = selectedButton.dataset.correct;
-    
+    if(correct){
+        score++;
+    }
+    else{
+        timerStart = timerStart - 10;
+    }
+
     Array.from(answersEl.children).forEach(button => {
         setStatusClass(button, button.dataset.correct);
     })
@@ -72,8 +82,6 @@ function selectAnswer(event) {
     }
     else{
         clearInterval(clockRunner);
-        // startButtonEl.innerText = "Restart";
-        // startButtonEl.classList.remove("hide");
         endGame();
     }
 };
@@ -104,14 +112,32 @@ function decriment(){
 
 function endGame(){
     questionContainerEl.classList.add("hide");
-    //capture time remaining
-    //collect number correct
-    //get highscore
-    //save highscore to local storage
-    var highScoreContainer = document.querySelector(".highScoreContainer");
     highScoreContainer.classList.remove("hide");
-    //show list of highscores
+    getHighscore();
 }
+
+function getHighscore(){
+    let timeRemaining = timerStart
+    
+    highScore = score * timeRemaining;
+
+    highScoreMessage = document.createElement("div");
+    highScoreMessage.innerText = "You got " + score + " answers correct! Your Score is " + highScore;
+    highScoreContainer.appendChild(highScoreMessage);
+
+
+    submitButtonEl.addEventListener("click", () => {
+        userInitialsInput = document.querySelector("input[name='user-initials']").value;
+
+        highScoreObj = {
+            name: userInitialsInput,
+            score: highScore
+        }
+        localStorage.setItem("highscore", JSON.stringify(highScoreObj));
+    });
+}
+
+
 
 const questionArr = [
     {
