@@ -1,0 +1,88 @@
+*, *::before, ::after {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --nuetral: #1100ab;
+    --wrong: #c91616;
+    --correct: #2fd635;
+    --buttons: #5894f5;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--nuetral);
+}
+
+.container {
+    width: 800px;
+    max-width: 80%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px 2px;
+}
+
+.status {
+    display: flex;
+    justify-content: end;
+    padding: 0 10px 10px 10px;
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 10px;
+    margin: 18px 0;
+}
+
+.btn {
+    background-color: var(--buttons);
+    border: 2px solid var(--buttons);
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    outline: none;
+}
+
+.btn:hover {
+    border-color: black;
+}
+
+.btn.wrong {
+    background-color: var(--wrong);
+    border-color: var(--wrong);
+}
+
+.btn.correct {
+    background-color: var(--correct);
+    border-color: var(--correct);
+}
+
+.start-btn, .next-btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    padding: 3px;
+    margin: 7px;
+}
+
+.hide {
+    display: none;
+}
