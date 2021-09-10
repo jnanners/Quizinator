@@ -20,6 +20,8 @@ let score = 0;
 
 const timerEl = document.querySelector("#timer");
 
+const highScoreArr = [];
+
 startButtonEl.addEventListener("click", startGame);
 
 
@@ -133,7 +135,12 @@ function getHighscore(){
             name: userInitialsInput,
             score: highScore
         }
-        localStorage.setItem("highscore", JSON.stringify(highScoreObj));
+
+        highScoreArr.push(highScoreObj);
+
+        localStorage.setItem("highscore", JSON.stringify(highScoreArr));
+
+        
     });
 }
 
